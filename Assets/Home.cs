@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class Home : MonoBehaviour
 {
-    [SerializeField] private List<ResourceContainer> inventory;
+    [SerializeField] private List<ItemContainer> inventory;
 
     private void Start() {
-        inventory = new List<ResourceContainer>()
+        inventory = new List<ItemContainer>()
         {
-            new ResourceContainer(EResourceType.Gold),
-            new ResourceContainer(EResourceType.Food),
-            new ResourceContainer(EResourceType.Metal),
-            new ResourceContainer(EResourceType.Wood)
+            new ItemContainer(EResourceType.Gold),
+            new ItemContainer(EResourceType.Food),
+            new ItemContainer(EResourceType.Metal),
+            new ItemContainer(EResourceType.Wood)
         };
     }
 

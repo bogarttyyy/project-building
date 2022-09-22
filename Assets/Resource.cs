@@ -1,45 +1,40 @@
-using UnityEngine;
-
-public class Resource : MonoBehaviour
+public class Resource
 {
-    [SerializeField] private int units;
     public EResourceType resourceType;
+    private int stock;
 
     public Resource() { }
-
-    public Resource(EResourceType type)
-    {
-        resourceType = type;
-    }
 
     public Resource(EResourceType type, int count)
     {
         resourceType = type;
-        units = count;
+        stock = count;
     }
 
-    private void Start() {
-
-    }
-
-    public int Transfer(int? units = null)
+    public int Transfer(int? count = null)
     {
-        // if (units.HasValue)
-        // {
-            
-        // }
-        // else
-        // {
-        //     return 
-        // }
+        var toBeTransferred = stock;
 
-        return 0;
+        if(count.HasValue)
+        {
+            if (count.Value <= stock)
+            {
+                toBeTransferred = count.Value;
+                stock -= count.Value;
+            }
+        }
+        else
+        {
+            stock = 0;
+        }
+
+        return toBeTransferred;
     }
 
     public int Empty()
     {
-        var toBeTransferred = units;
-        units = 0;
+        var toBeTransferred = stock;
+        stock = 0;
         return toBeTransferred;
     }
 }

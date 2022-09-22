@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ResourceContainer : MonoBehaviour
@@ -6,15 +7,10 @@ public class ResourceContainer : MonoBehaviour
     [SerializeField] private int capacity;
     [SerializeField] private int stock;
 
-    public ResourceContainer() { }
-
-    public ResourceContainer(EResourceType type)
-    {
-        resourceType = type;
-    }
+    public bool hasBeenSeen = false;
 
     private void Start() {
-        
+        hasBeenSeen = true;
     }
 
     public void Deposit(int units){
@@ -41,5 +37,9 @@ public class ResourceContainer : MonoBehaviour
         }
 
         return units;
+    }
+
+    IEnumerator Walk(){
+        yield return new WaitForSeconds(1f);
     }
 }
