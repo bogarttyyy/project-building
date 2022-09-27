@@ -17,14 +17,15 @@ public class ResourceContainer : MonoBehaviour
         stock += units;
     }
 
-    public int Withdraw(int units){
+    public Resource Withdraw(int units){
+        Resource resource = new Resource(resourceType, 0);
 
         if (stock >= units){
             stock -= units;
-            return units;
+            resource.Add(units);
         }
 
-        return 0;
+        return resource;
     }
 
     public int HardWithdraw(int units)

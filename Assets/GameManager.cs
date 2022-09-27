@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,22 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    [SerializeField] private GameObject homeBase;
+    [SerializeField] private Home homeBase;
     [SerializeField] private List<ResourceContainer> resourceSpots;
+
+    public static GameManager Instance { get; private set;}
+
+    private void Awake() {
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start() {
         if (resourceSpots == null)
@@ -33,5 +48,10 @@ public class GameManager : MonoBehaviour
         }
 
         return nearestContainer;
+    }
+
+    public Home GetHomebase(Transform transform)
+    {
+        return homeBase;
     }
 }

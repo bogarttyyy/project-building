@@ -1,3 +1,5 @@
+using System;
+
 internal class ItemContainer
 {
     public EResourceType resourceType;
@@ -41,5 +43,16 @@ internal class ItemContainer
         }
 
         return toBeWithdrawn;
+    }
+
+    public int Empty(){
+        var toBeWithdrawn = stock;
+        stock = 0;
+        return toBeWithdrawn;
+    }
+
+    internal int GetStock()
+    {
+        return stock;
     }
 }

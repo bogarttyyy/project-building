@@ -3,12 +3,20 @@ public class Resource
     public EResourceType resourceType;
     private int stock;
 
-    public Resource() { }
+    public Resource()
+    {
+        resourceType = EResourceType.Generic;
+        stock = 0;
+    }
 
-    public Resource(EResourceType type, int count)
+    public Resource(EResourceType type, int count = 0)
     {
         resourceType = type;
         stock = count;
+    }
+
+    public void Add(int units){
+        stock  += units;
     }
 
     public int Transfer(int? count = null)

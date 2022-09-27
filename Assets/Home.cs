@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,5 +33,26 @@ public class Home : MonoBehaviour
         var container = inventory.FirstOrDefault(x => x.resourceType == resourceType);
 
         return new Resource(resourceType, container.Withdraw(units));
+    }
+
+    public void DepositResource(Resource resource)
+    {
+        var container = GetContainer(resource.resourceType);
+        var amount = resource.Empty();
+        container.Deposit(amount);
+        Debug.Log($"NPC Resource transferred: {amount}");
+        Debug.Log($"Home Container Gained: {container.GetStock()}");
+    }
+
+    private ItemContainer GetContainer(EResourceType type){
+        var container = inventory.FirstOrDefault(c => c.resourceType == type);
+
+        if (container == null)
+        {
+            container = new ItemContainer(type);
+            inventory.Add(container);
+        }
+
+        return container;
     }
 }
