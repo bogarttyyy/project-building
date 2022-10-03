@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    public static event Action<Building> OnNewBuildingPlottedEvent;
+
     public static event Action OnDebugEvent;
 
     private void Update() {
@@ -16,5 +18,10 @@ public class EventManager : MonoBehaviour
         {
             OnDebugEvent?.Invoke();        
         }
+    }
+
+    internal static void NewBuildingPlottedEvent(Building building)
+    {
+        OnNewBuildingPlottedEvent?.Invoke(building);
     }
 }

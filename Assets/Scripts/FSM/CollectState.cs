@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class CollectState : IAIState
 {
     [SerializeField]
-    private ResourceContainer destResourceContainer;
+    private ResourceContainer destContainer;
 
     [SerializeField]
     private NPC npcObj;
@@ -22,15 +22,20 @@ public class CollectState : IAIState
             npcObj = aiObject.GetComponent<NPC>();
         }
 
-        if (destResourceContainer == null || !npcObj.hasResource)
+        if (destContainer == null || !npcObj.hasResource)
         {
-            destResourceContainer = GameManager.Instance.GetNearestResourceSpot(aiObject.transform);
-            aiObject.destination = destResourceContainer.transform.position;
-            aiObject.navAgent.SetDestination(destResourceContainer.transform.position);
+            destContainer = GameManager.Instance.GetNearestResourceSpot(aiObject.transform);
+            aiObject.destination = destContainer.transform.position;
+            aiObject.navAgent.SetDestination(destContainer.transform.position);
         }
 
-        GoCollect(aiObject, destResourceContainer);
+        GoCollect(aiObject, destContainer);
 
+        return ChangeState(aiObject);
+    }
+
+    private IAIState ChangeState(AIBrain aiObject)
+    {
         if (npcObj.hasResource){
             Debug.Log("State Changed: Drop");
             return aiObject.dropState;
@@ -46,7 +51,5 @@ public class CollectState : IAIState
         {
             npcObj.AddToContainer(container.Withdraw(1));
         }
-
-        
     }
 }
