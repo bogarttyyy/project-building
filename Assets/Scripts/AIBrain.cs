@@ -52,7 +52,7 @@ public class AIBrain : MonoBehaviour
         switch (currentTask)
         {
             case EAiTask.Building:
-                BuildInstructions();
+                BuildInstructionSet();
                 break;
             case EAiTask.Gathering:
                 break;
@@ -62,7 +62,7 @@ public class AIBrain : MonoBehaviour
         }
     }
 
-    private void BuildInstructions() {
+    private void BuildInstructionSet() {
         // Do I have something I'm carrying, is it the right resource?
         // 
         currentState = thinkingState;
