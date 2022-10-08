@@ -19,11 +19,11 @@ public class TaskWander : Node
     private bool waiting;
 
 
-    public TaskWander(NavMeshAgent navMeshAgent, float xLimit, float zLimit)
+    public TaskWander(NavMeshAgent agent, float x, float z)
     {
-        agent = navMeshAgent;
-        x = xLimit;
-        z = zLimit;
+        this.agent = agent;
+        this.x = x;
+        this.z = z;
     }
 
     public override NodeState Evaluate()
@@ -41,19 +41,21 @@ public class TaskWander : Node
             if (agent.isPathStale || currentDestination.AlmostZero())
             {
                 currentDestination = WanderToAnotherPoint();
+                parent.SetData("currentTask", EAiTask.Wandering);
                 agent.SetDestination(currentDestination);
             }
 
             if (Vector3.Distance(currentDestination, agent.transform.position) < 1.5f)
             {
                 currentDestination = WanderToAnotherPoint();
+                parent.SetData("currentTask", EAiTask.Waiting);
                 waitCounter = 0;
                 waiting = true;
             }
             else
             {
+                Debug.Log("Wandering");
                 agent.SetDestination(currentDestination);
-                
             }
         }
 

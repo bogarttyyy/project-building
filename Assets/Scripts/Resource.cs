@@ -9,6 +9,12 @@ public class Resource
         stock = 0;
     }
 
+    public Resource(Resource resource)
+    {
+        resourceType = resource.resourceType;
+        stock = resource.stock;
+    }
+
     public Resource(EResourceType type, int count = 0)
     {
         resourceType = type;

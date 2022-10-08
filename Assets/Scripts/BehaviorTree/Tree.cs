@@ -10,14 +10,8 @@ namespace BehaviorTree
     public abstract class Tree : MonoBehaviour
     {
         private Node root = null;
-        protected NavMeshAgent agent;
 
-        private void Awake()
-        {
-            agent = GetComponent<NavMeshAgent>();
-        }
-
-        protected void Start()
+        protected virtual void Start()
         {
             root = SetupTree();
         }

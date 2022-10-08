@@ -13,7 +13,7 @@ public class NPC : MonoBehaviour
         container = new ItemContainer(EResourceType.Generic);
     }
 
-    public void AddToContainer(Resource resource){
+    public void AddToInventory(Resource resource){
         AddToContainer(resource.resourceType, resource.Empty());
     }
 
@@ -25,5 +25,10 @@ public class NPC : MonoBehaviour
 
     public Resource EmptyContainer(){
         return new Resource(container.resourceType, container.Empty());
+    }
+
+    public Resource ItemHeld()
+    {
+        return new Resource(container.resourceType, container.GetStock());
     }
 }

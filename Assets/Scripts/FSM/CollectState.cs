@@ -49,7 +49,7 @@ public class CollectState : IAIState
     {
         if (Vector3.Distance(aiObject.transform.position, container.transform.position) < 1.5f)
         {
-            npcObj.AddToContainer(container.Withdraw(1));
+            npcObj.AddToInventory(container.Withdraw(1));
         }
     }
 }

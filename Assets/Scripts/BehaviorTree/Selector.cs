@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BehaviorTree
 {
@@ -18,22 +13,20 @@ namespace BehaviorTree
             {
                 switch (node.Evaluate())
                 {
+                    case NodeState.FAILURE:
+                        continue;
                     case NodeState.RUNNING:
                         state = NodeState.RUNNING;
                         return state;
                     case NodeState.SUCCESS:
                         state = NodeState.SUCCESS;
                         return state;
-                    case NodeState.FAIL:
-                        continue;
                     default:
-                        state = NodeState.SUCCESS;
-                        return state;
+                        continue;
                 }
             }
-            
-            state = NodeState.FAIL;
 
+            state = NodeState.FAILURE;
             return state;
         }
     }

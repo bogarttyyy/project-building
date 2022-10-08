@@ -8,15 +8,15 @@ namespace BehaviorTree
     {
         RUNNING,
         SUCCESS,
-        FAIL
+        FAILURE
     }
 
-    public class Node
+    public abstract class Node
     {
         protected NodeState state;
 
         public Node parent;
-        protected List<Node> children;
+        protected List<Node> children = new List<Node>();
 
         private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
 
@@ -39,7 +39,7 @@ namespace BehaviorTree
             children.Add(node);
         }
 
-        public virtual NodeState Evaluate() => NodeState.FAIL;
+        public abstract NodeState Evaluate();
 
         public void SetData(string key, object value)
         {

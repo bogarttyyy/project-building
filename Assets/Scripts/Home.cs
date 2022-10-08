@@ -7,6 +7,7 @@ using UnityEngine;
 public class Home : MonoBehaviour
 {
     [SerializeField] private int[] inventoryArray = { 
+        0,
         0, // Gold
         0, // Food
         0, // Metal
@@ -43,7 +44,7 @@ public class Home : MonoBehaviour
         //Get Container
         var container = inventory.FirstOrDefault(x => x.resourceType == resourceType);
         // Subtract from Home Container
-        return new Resource(resourceType, container.Withdraw(units));
+        return new Resource(resourceType, units);
     }
 
     public void DepositResource(Resource resource)
