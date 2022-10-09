@@ -22,19 +22,18 @@ namespace Assets.Scripts.WorkerAI
         {
             Building building = (Building)GetData("building");
 
-            Debug.Log("has Resource " + npc.hasResource);
+            Debug.Log("Has Resource " + npc.hasResource);
             if (npc.hasResource)
             {
                 if (building.resourceMaterial == npc.ItemHeld().resourceType)
                 {
                     Debug.Log("Success!!!");
-                    return NodeState.SUCCESS;
+                    return NodeState.FAILURE;
                 }
-                Debug.Log("WhY?");
                 npc.DropItem();
             }
 
-            return NodeState.FAILURE;
+            return NodeState.RUNNING;
         }
     }
 }

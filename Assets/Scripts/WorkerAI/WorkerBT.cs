@@ -32,15 +32,18 @@ namespace BehaviorTree
                 new Sequence(new List<Node>()
                 {
                     new CheckHasUnbuiltStructure(),
-                    new Sequence(new List<Node>()
+                    new Selector(new List<Node>()
                     {
-                        new TaskGetResource(worker, agent, home),
-                        new CheckIsCorrectResource(worker)
+                        new Sequence(new List<Node>()
+                        {
+                            new TaskGetResource(worker, agent, home),
+                            new CheckIsCorrectResource(worker)
+                        }),
+                        new TaskBuildStructure(agent, worker),
                     }),
-                    new TaskBuildStructure(agent, worker),
                     new CheckIsBuildingDone()
                 }),
-                //new TaskWander(agent, 5, 5)
+                new TaskWander(agent, 5, 5)
             });
 
             return root;

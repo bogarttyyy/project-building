@@ -20,8 +20,11 @@ namespace Assets.Scripts.WorkerAI
 
         private void NewBuilding(Building buildingPlotted)
         {
-            Debug.Log($"Building plotted: {buildingPlotted?.transform?.position}");
-            newBuilding = buildingPlotted;
+            //newBuilding = GameManager.Instance.GetStructuresToBuild().FirstOrDefault();
+            //if (newBuilding != null)
+            //{
+            //    Debug.Log($"Building plotted: {newBuilding.transform.position}");
+            //}
         }
 
         public override NodeState Evaluate()
@@ -34,17 +37,24 @@ namespace Assets.Scripts.WorkerAI
                 parent.parent.SetData("currentTask", EAiTask.Building);
                 return NodeState.SUCCESS;
             }
+                
+            newBuilding = CheckForUnbuilt();
             
             if (newBuilding != null)
             {
-                //Debug.Log($"NewBuilding Found: {newBuilding.transform.position}");
+                Debug.Log($"NewBuilding Found: {newBuilding.transform.position}");
                 parent.SetData("building", newBuilding);
                 parent.parent.SetData("currentTask", EAiTask.Building);
+                newBuilding = null;
                 return NodeState.SUCCESS;
             }
 
-            Debug.Log("FAIL");
             return NodeState.FAILURE;
         }
+        private Building CheckForUnbuilt()
+        {
+            return GameManager.Instance?.GetStructuresToBuild()?.FirstOrDefault();
+        }
+
     }
 }

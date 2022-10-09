@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Building selectedBuilding;
     public List<Building> buildingList {get; private set;}
 
+    public List<Building> structuresToBeBuilt { get; private set; }
+
     public static GameManager Instance { get; private set;}
 
     private void Awake() {
@@ -29,7 +31,8 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        EventManager.OnDebugEvent += HandleOnDebugEvent;
+        EventManager.OnDebugEvent += HandleOnBuildingFinishedEvent;
+        EventManager.OnBuildingFinishedEvent += HandleOnBuildingFinishedEvent;
 
         if (resourceSpots == null)
         {
@@ -51,9 +54,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             var ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            
-            if (Physics.Raycast(ray, out hit))
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 // selectedBuilding.transform.position = hit.point;
                 Building build = Instantiate(selectedBuilding);
@@ -66,7 +68,13 @@ public class GameManager : MonoBehaviour
     private void AddBuilding(Building build)
     {
         buildingList.Add(build);
+        HandleOnBuildingFinishedEvent();
         EventManager.NewBuildingPlottedEvent(build);
+    }
+
+    private void HandleOnBuildingFinishedEvent()
+    {
+        structuresToBeBuilt = buildingList.Where(b => !b.IsBuilt()).ToList();
     }
 
     public ResourceContainer GetNearestResourceSpot(Transform currentLocation)
@@ -93,8 +101,9 @@ public class GameManager : MonoBehaviour
         return homeBase;
     }
 
-    private void HandleOnDebugEvent(){
-        Debug.Log("Fire Debug Event!");
+    public List<Building> GetStructuresToBuild()
+    {
+        return structuresToBeBuilt;
     }
 
     internal Building GetStructureToBuild(Transform currentLocation)

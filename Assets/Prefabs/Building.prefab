@@ -128,5 +128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 0
-  total: 10
+  total: 3
   resourceMaterial: 3
+  materials:
+  - {fileID: 2100000, guid: 3358ef1df9922704aba63cf9b9d3ea4b, type: 2}
+  - {fileID: 2100000, guid: 1b66bcf11e723dd49ad57907aa4280c2, type: 2}

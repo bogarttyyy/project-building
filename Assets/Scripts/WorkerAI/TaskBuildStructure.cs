@@ -32,7 +32,7 @@ namespace Assets.Scripts.WorkerAI
     
             }
 
-            return NodeState.FAILURE;
+            return NodeState.RUNNING;
         }
     }
 }

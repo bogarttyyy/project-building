@@ -8,6 +8,7 @@ public class EventManager : MonoBehaviour
     public static event Action<Building> OnNewBuildingPlottedEvent;
 
     public static event Action OnDebugEvent;
+    public static event Action OnBuildingFinishedEvent;
 
     private void Update() {
         HandleOnDebugEvent();
@@ -23,5 +24,10 @@ public class EventManager : MonoBehaviour
     internal static void NewBuildingPlottedEvent(Building building)
     {
         OnNewBuildingPlottedEvent?.Invoke(building);
+    }
+
+    internal static void BuildingFinishedEvent()
+    {
+        OnBuildingFinishedEvent?.Invoke();
     }
 }
