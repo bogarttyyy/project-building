@@ -1,4 +1,4 @@
-﻿using BehaviorTree;
+﻿using NSBStudio.BehaviorTree;
 using UnityEngine;
 using UnityEngine.AI;
 

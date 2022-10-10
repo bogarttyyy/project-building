@@ -1,4 +1,4 @@
-﻿using BehaviorTree;
+﻿using NSBStudio.BehaviorTree;
 using UnityEngine;
 
 namespace Assets.Scripts.WorkerAI

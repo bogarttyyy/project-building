@@ -18,6 +18,7 @@ public class Building : MonoBehaviour
 
     public EResourceType resourceMaterial;
     private Renderer rend;
+    private NavMeshObstacle navMeshObstacle;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,9 @@ public class Building : MonoBehaviour
         rend = GetComponent<Renderer>();
         rend.enabled = true;
         rend.sharedMaterial = materials[0];
+
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
+        navMeshObstacle.enabled = false;
     }
 
     // Update is called once per frame
@@ -38,6 +42,7 @@ public class Building : MonoBehaviour
         if (IsBuilt())
         {
             rend.sharedMaterial = materials[1];
+            navMeshObstacle.enabled = true;
             EventManager.BuildingFinishedEvent();
         }
     }

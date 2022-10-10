@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace BehaviorTree
+namespace NSBStudio.BehaviorTree
 {
     public abstract class Tree : MonoBehaviour
     {
