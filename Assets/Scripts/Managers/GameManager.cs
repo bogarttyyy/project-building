@@ -106,6 +106,11 @@ public class GameManager : MonoBehaviour
         {
             buildingList = new List<Building>();
         }
+
+        if (structuresToBeBuilt == null)
+        {
+            structuresToBeBuilt = new List<Building>();
+        }
     }
 
     private void HandleOnBuildClick(Building building)
@@ -117,9 +122,6 @@ public class GameManager : MonoBehaviour
 
             float adjustment = (currentScreenPos.x - Input.mousePosition.x) * buildRotationSensitivity;
 
-            Debug.Log($"obj -- {currentScreenPos.x}");
-            Debug.Log($"mouse -- {Input.mousePosition.x}");
-            Debug.Log($"{adjustment}");
             building.transform.localEulerAngles = new Vector3(0, adjustment, 0);
 
             if (!building.isValid)
@@ -158,6 +160,25 @@ public class GameManager : MonoBehaviour
     private void UpdateStructuresToBuild()
     {
         structuresToBeBuilt = buildingList.Where(b => !b.IsBuilt()).ToList();
+    }
+
+    public Building GetNearestUnbuiltStructure(Transform currentLocation)
+    {
+        float currentMin = 0f;
+        Building nearestBuilding = structuresToBeBuilt.FirstOrDefault();
+
+        foreach (var building in structuresToBeBuilt)
+        {
+            float distance = Vector3.Distance(building.transform.position, currentLocation.position);
+
+            if (distance < currentMin)
+            {
+                currentMin = distance;
+                nearestBuilding = building;
+            }
+        }
+
+        return nearestBuilding;
     }
 
     public ResourceContainer GetNearestResourceSpot(Transform currentLocation)

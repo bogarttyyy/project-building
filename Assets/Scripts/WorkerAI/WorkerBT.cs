@@ -30,7 +30,7 @@ public class WorkerBT : NSBStudio.BehaviorTree.Tree
         {
             new Sequence(new List<Node>()
             {
-                new CheckHasUnbuiltStructure(),
+                new CheckHasUnbuiltStructure(worker),
                 new Selector(new List<Node>()
                 {
                     new Sequence(new List<Node>()

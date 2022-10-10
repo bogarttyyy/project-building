@@ -13,10 +13,11 @@ namespace Assets.Scripts.WorkerAI
     public class CheckHasUnbuiltStructure : Node
     {
         private Building newBuilding;
-
-        public CheckHasUnbuiltStructure()
+        private Worker worker;
+        
+        public CheckHasUnbuiltStructure(Worker worker)
         {
-
+            this.worker = worker;
         }
 
         public override NodeState Evaluate()
@@ -45,7 +46,7 @@ namespace Assets.Scripts.WorkerAI
         }
         private Building CheckForUnbuilt()
         {
-            return GameManager.Instance?.GetStructuresToBuild()?.FirstOrDefault();
+            return GameManager.Instance?.GetNearestUnbuiltStructure(worker.transform);
         }
 
     }
