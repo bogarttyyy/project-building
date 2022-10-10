@@ -22,7 +22,6 @@ namespace Assets.Scripts.WorkerAI
             if (building != null)
             {
                 agent.SetDestination(building.transform.position);
-                Debug.Log($"Destination set: {Vector3.Distance(building.transform.position, agent.transform.position)} remaining");
 
                 if (Vector3.Distance(building.transform.position, worker.transform.position) < 1.5f)
                 {

@@ -12,7 +12,6 @@ namespace Assets.Scripts.WorkerAI
 
             if (building != null)
             {
-                Debug.Log($"Check Built: {building.IsBuilt()}");
                 if (building.IsBuilt())
                 {
                     ClearData("building");

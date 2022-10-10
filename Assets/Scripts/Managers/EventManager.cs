@@ -6,9 +6,9 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
     public static event Action<Building> OnNewBuildingPlottedEvent;
+    public static event Action<Building> OnBuildingFinishedEvent;
 
     public static event Action OnDebugEvent;
-    public static event Action OnBuildingFinishedEvent;
 
     private void Update() {
         HandleOnDebugEvent();
@@ -26,8 +26,8 @@ public class EventManager : MonoBehaviour
         OnNewBuildingPlottedEvent?.Invoke(building);
     }
 
-    internal static void BuildingFinishedEvent()
+    internal static void BuildingFinishedEvent(Building building)
     {
-        OnBuildingFinishedEvent?.Invoke();
+        OnBuildingFinishedEvent?.Invoke(building);
     }
 }

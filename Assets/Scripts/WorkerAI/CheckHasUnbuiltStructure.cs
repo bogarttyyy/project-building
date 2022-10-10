@@ -16,16 +16,7 @@ namespace Assets.Scripts.WorkerAI
 
         public CheckHasUnbuiltStructure()
         {
-            EventManager.OnNewBuildingPlottedEvent += NewBuilding;
-        }
 
-        private void NewBuilding(Building buildingPlotted)
-        {
-            //newBuilding = GameManager.Instance.GetStructuresToBuild().FirstOrDefault();
-            //if (newBuilding != null)
-            //{
-            //    Debug.Log($"Building plotted: {newBuilding.transform.position}");
-            //}
         }
 
         public override NodeState Evaluate()

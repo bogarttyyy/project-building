@@ -33,6 +33,7 @@ public class TaskWander : Node
             waitCounter += Time.deltaTime;
             if (waitCounter >= waitTime)
             {
+                Debug.Log("Wandering");
                 waiting = false;
             }
         }
@@ -54,7 +55,6 @@ public class TaskWander : Node
             }
             else
             {
-                Debug.Log("Wandering");
                 agent.SetDestination(currentDestination);
             }
         }

@@ -7,17 +7,27 @@ using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
+    public const int STRUCTURE_LAYER = 7;
+
     // public NavMeshSurface surface;
+    [SerializeField] private Camera cam;
+    [SerializeField] private Mode mode;
     [SerializeField] private Home homeBase;
     [SerializeField] private List<ResourceContainer> resourceSpots;
-
-    public Camera cam;
     [SerializeField] private Building selectedBuilding;
-    public List<Building> buildingList {get; private set;}
 
+    private Building currentBuilding;
+
+    public List<Building> buildingList {get; private set;}
     public List<Building> structuresToBeBuilt { get; private set; }
 
     public static GameManager Instance { get; private set;}
+
+    private enum Mode
+    {
+        Play,
+        Build
+    }
 
     private void Awake() {
         if (Instance != null && Instance != this)
@@ -31,13 +41,65 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        EventManager.OnDebugEvent += HandleOnBuildingFinishedEvent;
-        EventManager.OnBuildingFinishedEvent += HandleOnBuildingFinishedEvent;
+
+        mode = Mode.Play;
+
+        SetupBuildingEvents();
 
         if (resourceSpots == null)
         {
             resourceSpots = new List<ResourceContainer>();
         }
+    }
+
+    private void Update()
+    {
+        ModeChange();
+
+        BuildLogic();
+    }
+
+    private void ModeChange()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (currentBuilding == null)
+            {
+                currentBuilding = Instantiate(selectedBuilding);
+            }
+            else
+            {
+                currentBuilding.gameObject.SetActive(true);
+            }
+
+            mode = Mode.Build;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            currentBuilding?.gameObject?.SetActive(false);
+            mode = Mode.Play;
+        }
+    }
+
+    private void BuildLogic()
+    {
+        if (mode == Mode.Build)
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                currentBuilding.transform.position = new Vector3(hit.point.x, 1, hit.point.z);
+            }
+
+            HandleOnBuildClick(currentBuilding);
+        }
+    }
+
+    private void SetupBuildingEvents()
+    {
+        EventManager.OnBuildingFinishedEvent += HandleOnBuildingFinishedEvent;
 
         if (buildingList == null)
         {
@@ -45,22 +107,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update() {
-        HandleOnBuildClick();
-    }
-
-    private void HandleOnBuildClick()
+    private void HandleOnBuildClick(Building building)
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
-            var ray = cam.ScreenPointToRay(Input.mousePosition);
+            //var plotPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            //building.transform.position = new Vector3(plotPosition.x, 1, plotPosition.z);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            //building.transform.rotation = Quaternion.FromToRotation(plotPosition, Input.mousePosition);
+
+            if (!building.isValid)
             {
-                // selectedBuilding.transform.position = hit.point;
-                Building build = Instantiate(selectedBuilding);
-                build.transform.position = new Vector3(hit.point.x, 1, hit.point.z);
-                AddBuilding(build);
+                Debug.Log("Invalid Placement");
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            if (!building.isValid)
+            {
+                Debug.Log("Cannot Place Building");
+            }
+            else
+            {
+                AddBuilding(building);
             }
         }
     }
@@ -68,11 +138,18 @@ public class GameManager : MonoBehaviour
     private void AddBuilding(Building build)
     {
         buildingList.Add(build);
-        HandleOnBuildingFinishedEvent();
+        UpdateStructuresToBuild();
         EventManager.NewBuildingPlottedEvent(build);
+
+        currentBuilding = Instantiate(selectedBuilding);
     }
 
-    private void HandleOnBuildingFinishedEvent()
+    private void HandleOnBuildingFinishedEvent(Building building)
+    {
+        UpdateStructuresToBuild();
+    }
+
+    private void UpdateStructuresToBuild()
     {
         structuresToBeBuilt = buildingList.Where(b => !b.IsBuilt()).ToList();
     }
@@ -126,5 +203,10 @@ public class GameManager : MonoBehaviour
         }
 
         return nearestBuilding;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.OnBuildingFinishedEvent -= HandleOnBuildingFinishedEvent;
     }
 }

@@ -30,7 +30,6 @@ public class TaskGetResource : Node
         if (building != null)
         {
             agent.SetDestination(home.transform.position);
-            Debug.Log($"Destination set: {Vector3.Distance(home.transform.position, agent.transform.position)} remaining");
 
             if (Vector3.Distance(agent.transform.position, home.transform.position) < 1.5f)
             {
