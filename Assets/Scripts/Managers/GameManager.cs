@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Home homeBase;
     [SerializeField] private List<ResourceContainer> resourceSpots;
     [SerializeField] private Building selectedBuilding;
-    [SerializeField] private float buildRotationSensitivity = 10f;
+    [SerializeField] private float buildRotationSensitivity = 0.1f;
 
     private Building currentBuilding;
 
@@ -112,11 +112,14 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            var plotPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 currentScreenPos = cam.WorldToScreenPoint(building.transform.position);
             //building.transform.position = new Vector3(plotPosition.x, 1, plotPosition.z);
 
-            float adjustment = (plotPosition.x - building.transform.position.x) * buildRotationSensitivity;
+            float adjustment = (currentScreenPos.x - Input.mousePosition.x) * buildRotationSensitivity;
 
+            Debug.Log($"obj -- {currentScreenPos.x}");
+            Debug.Log($"mouse -- {Input.mousePosition.x}");
+            Debug.Log($"{adjustment}");
             building.transform.localEulerAngles = new Vector3(0, adjustment, 0);
 
             if (!building.isValid)

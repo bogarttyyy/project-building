@@ -1192,12 +1192,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5090283579d109488f1d66731c84ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 330585545}
+  mode: 0
   homeBase: {fileID: 1863366787}
   resourceSpots:
   - {fileID: 498642295}
-  cam: {fileID: 330585545}
   selectedBuilding: {fileID: 3835309368983133792, guid: 3f8091c96f2ac244db260261e5f50ae4,
     type: 3}
+  buildRotationSensitivity: 1
 --- !u!4 &1685144214
 Transform:
   m_ObjectHideFlags: 0
