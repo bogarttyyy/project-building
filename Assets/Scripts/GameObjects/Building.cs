@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +21,8 @@ public class Building : MonoBehaviour
 
     [SerializeField]
     private Material[] materials;
+    
+    [SerializeField] private TMP_Text buildingText;
 
     public EResourceType resourceMaterial;
     private Renderer rend;
@@ -45,6 +48,8 @@ public class Building : MonoBehaviour
         navMeshObstacle.enabled = false;
 
         state = BuildingState.Blueprint;
+        
+        buildingText.text = $"Progress: {progress} / {total}";
     }
 
     private void SetupEvents()
@@ -72,6 +77,7 @@ public class Building : MonoBehaviour
             state = BuildingState.Built;
             rend.sharedMaterial = materials[1];
             navMeshObstacle.enabled = true;
+            buildingText.text = "Building";
             EventManager.BuildingFinishedEvent(this);
         }
     }
@@ -107,5 +113,7 @@ public class Building : MonoBehaviour
     public void Build(Resource resource)
     {
         progress += resource.Empty();
+        Debug.Log(progress);
+        buildingText.text = $"Progress: {progress} / {total}";
     }
 }

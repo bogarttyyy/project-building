@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<ResourceContainer> resourceSpots;
     [SerializeField] private Building selectedBuilding;
     [SerializeField] private float buildRotationSensitivity = 0.1f;
+    
+    public TextMeshProUGUI modeText;
+    public TextMeshProUGUI controlText;
 
     private Building currentBuilding;
 
@@ -45,6 +49,7 @@ public class GameManager : MonoBehaviour
     private void Start() {
 
         mode = Mode.Play;
+        SetupText();
 
         SetupBuildingEvents();
 
@@ -72,10 +77,13 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            currentBuilding?.gameObject?.SetActive(false);
-            mode = Mode.Play;
-            
+            // currentBuilding?.gameObject?.SetActive(false);
+            // mode = Mode.Play;
+            // modeText.text = "Play Mode";
+            // controlText
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            
+            SetupText();
         }
     }
 
@@ -83,22 +91,45 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            if (currentBuilding == null)
+            switch (mode)
             {
-                currentBuilding = Instantiate(selectedBuilding);
-            }
-            else
-            {
-                currentBuilding.gameObject.SetActive(true);
-            }
+                case Mode.Play:
+                    // switch to build mode
+                    if (currentBuilding == null)
+                    {
+                        currentBuilding = Instantiate(selectedBuilding);
+                    }
+                    else
+                    {
+                        currentBuilding.gameObject.SetActive(true);
+                    }
 
-            mode = Mode.Build;
+                    mode = Mode.Build;
+                    break;
+                case  Mode.Build:
+                    // switch to play mode
+                    currentBuilding?.gameObject?.SetActive(false);
+                    mode = Mode.Play;
+                    break;
+            }
+            SetupText();
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.P))
+    private void SetupText()
+    {
+        switch (mode)
         {
-            currentBuilding?.gameObject?.SetActive(false);
-            mode = Mode.Play;
+            case Mode.Play:
+                modeText.text = "Mode: Play";
+                modeText.color = Color.green;
+                controlText.text = "Right Click: Move";
+                break;
+            case Mode.Build:
+                modeText.text = "Mode: Build";
+                modeText.color = new Color32(255, 128, 0, 255);
+                controlText.text = "Right Click: Move\nLeft Click: Place Building\nLeft Drag: Rotate Building";
+                break;
         }
     }
 
@@ -108,7 +139,7 @@ public class GameManager : MonoBehaviour
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit) && !Input.GetMouseButton(1) && !Input.GetMouseButtonUp(1))
+            if (Physics.Raycast(ray, out RaycastHit hit) && !Input.GetMouseButton(0) && !Input.GetMouseButtonUp(0))
             {
                 currentBuilding.transform.position = new Vector3(hit.point.x, 1, hit.point.z);
             }
@@ -134,7 +165,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleOnBuildClick(Building building)
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(0))
         {
             Vector3 currentScreenPos = cam.WorldToScreenPoint(building.transform.position);
             //building.transform.position = new Vector3(plotPosition.x, 1, plotPosition.z);
@@ -149,7 +180,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(0))
         {
             if (!building.isValid)
             {

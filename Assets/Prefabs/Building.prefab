@@ -144,6 +144,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3358ef1df9922704aba63cf9b9d3ea4b, type: 2}
   - {fileID: 2100000, guid: 1b66bcf11e723dd49ad57907aa4280c2, type: 2}
   - {fileID: 2100000, guid: c5c9b20e253308b4aa78741ca3e89eff, type: 2}
+  buildingText: {fileID: 7865413477943366420}
   resourceMaterial: 3
 --- !u!54 &-2836340467831537817
 Rigidbody:
@@ -301,3 +302,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3630879015232378180}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7865413477943366420 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6864883141895177808, guid: 93dcf95c822fd264d91880ce09ac6b61,
+    type: 3}
+  m_PrefabInstance: {fileID: 3630879015232378180}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

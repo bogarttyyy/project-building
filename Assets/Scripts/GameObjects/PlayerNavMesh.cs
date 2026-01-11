@@ -18,7 +18,7 @@ public class PlayerNavMesh : MonoBehaviour
     private void Update() {
         // navMeshAgent.destination = movePositionTransform.position;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             var ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
