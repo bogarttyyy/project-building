@@ -18,6 +18,14 @@ public class TextFaceCamera : MonoBehaviour
     [SerializeField]
     private float z = 0;
 
+    private void Start()
+    {
+        if (cam == null)
+        {
+            cam = Camera.main;
+        }
+    }
+
     private void Update()
     {
         transform.forward = cam.transform.forward;
