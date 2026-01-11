@@ -55,9 +55,22 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        // Press R to reset stage
+        Reset();
+        
+        // Press B to change modes (Play/Build)
         ModeChange();
 
+        // Handle build logic
         BuildLogic();
+    }
+
+    private void Reset()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            
+        }
     }
 
     private void ModeChange()
